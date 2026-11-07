@@ -1,20 +1,30 @@
 {
   "manifest_version": 3,
   "name": "GirlfriendGPT",
-  "version": "1.0.0",
-  "description": "AI-powered WhatsApp reply assistant that matches your personal texting style using OpenAI.",
-  "permissions": ["storage"],
+  "version": "1.1.0",
+  "description": "WhatsApp reply assistant with OpenAI, xAI Grok and Google Gemini.",
+  "permissions": [
+    "storage"
+  ],
   "host_permissions": [
     "https://web.whatsapp.com/*",
-    "https://api.openai.com/*"
+    "https://api.openai.com/*",
+    "https://api.x.ai/*",
+    "https://generativelanguage.googleapis.com/*",
+    "https://api.x.ai/*",
+    "https://generativelanguage.googleapis.com/*"
   ],
   "background": {
     "service_worker": "src/background.js"
   },
   "content_scripts": [
     {
-      "matches": ["https://web.whatsapp.com/*"],
-      "js": ["src/content.js"],
+      "matches": [
+        "https://web.whatsapp.com/*"
+      ],
+      "js": [
+        "src/content.js"
+      ],
       "run_at": "document_idle"
     }
   ],

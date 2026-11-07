@@ -1,0 +1,43 @@
+# GirlfriendGPT — OpenAI + Grok + Gemini (versão 1.1.0)
+
+Esta é uma versão modificada do projeto de danielmadii, sem vínculo com o autor original.
+
+## Instalar no Microsoft Edge
+1. Extraia este ZIP para uma pasta permanente.
+2. Abra edge://extensions.
+3. Ative Modo do desenvolvedor e clique em Carregar sem compactação.
+4. Selecione a pasta GirlfriendGPT-multiplataforma que contém manifest.json.
+5. Se a versão original estiver instalada em outra pasta, desative-a para evitar duas extensões respondendo ao mesmo tempo.
+6. Abra Configurações da extensão. Em Provedor de IA, escolha OpenAI, xAI (Grok) ou Google Gemini.
+7. Cole a chave correspondente, confira o modelo e clique em Save Settings.
+8. Configure o contato permitido e o estilo como na versão original. Recarregue o WhatsApp Web após instalar ou atualizar.
+
+Cada provedor mantém seu próprio campo de chave e modelo. Trocar a seleção preserva os valores durante a edição; Save Settings grava tudo e ativa o provedor escolhido. Configurações antigas sem provedor continuam sendo interpretadas como OpenAI.
+
+O campo de modelo aceita texto livre: use o ID exato disponível na sua conta. As sugestões não garantem disponibilidade ou créditos.
+
+## Onde obter chaves
+- OpenAI: https://platform.openai.com/api-keys
+- xAI/Grok: https://console.x.ai/
+- Gemini Developer API: https://aistudio.google.com/apikey
+
+As chaves são salvas no armazenamento local da extensão. Ao gerar uma resposta, a chave vai apenas ao serviço selecionado; esse serviço também recebe o contexto recente, instruções de estilo e exemplos usados no prompt. Não existe servidor intermediário nesta adaptação.
+
+## O que foi alterado
+- Seletor de provedor e perfis separados para chaves e modelos.
+- Integração direta com as APIs oficiais de Grok e Gemini.
+- Campo de modelo editável e mensagens de erro por provedor.
+- Limite de tempo de 60 segundos por chamada.
+- Respostas inválidas, bloqueadas ou incompletas geram erro; não são liberadas para envio automático.
+- Mantidos os controles existentes de pausa, contato permitido, treinamento de estilo e envio automático.
+
+## Validação
+10 testes automatizados com respostas simuladas: três provedores, autenticação e formato das chamadas, erros, JSON inválido, bloqueio/truncamento Gemini, migração das configurações, troca de perfis, permissões e integração do serviço de geração.
+Sintaxe de todos os arquivos JavaScript verificada.
+Não foram feitas chamadas pagas/reais nem instalação no Edge: é necessário testar com sua própria chave. Comece com Auto-Send desligado.
+
+## Referências das integrações
+- https://docs.x.ai/developers/model-capabilities/legacy/chat-completions
+- https://ai.google.dev/api/generate-content
+
+O README.md original permanece no pacote como referência do projeto de origem.
