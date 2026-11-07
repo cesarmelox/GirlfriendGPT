@@ -421,22 +421,29 @@
 
   <!-- OpenAI Config -->
   <div class="card">
-    <div class="card-title">🔑 OpenAI Configuration</div>
+    <div class="card-title">🔑 Provedor de IA</div>
 
+    <div class="field">
+      <label class="field-label" for="providerSelect">Provedor</label>
+      <select id="providerSelect">
+        <option value="openai">OpenAI (GPT)</option>
+        <option value="grok">xAI (Grok)</option>
+        <option value="gemini">Google Gemini</option>
+      </select>
+      <div class="field-desc">Cada provedor tem sua própria chave e modelo. Clique em Save Settings para aplicar.</div>
+    </div>
     <div class="field">
       <label class="field-label" for="apiKey">API Key</label>
       <input type="password" id="apiKey" placeholder="sk-..." autocomplete="off" />
-      <div class="field-desc">Stored locally in your browser only. Never sent anywhere except api.openai.com.</div>
+      <div class="field-desc">Chave guardada neste navegador e enviada apenas ao provedor selecionado. O contexto da conversa, resumo de estilo e exemplos também são enviados a ele.</div>
     </div>
 
     <div class="field">
       <label class="field-label" for="modelSelect">Model</label>
-      <select id="modelSelect">
-        <option value="gpt-4o">GPT-4o (recommended)</option>
-        <option value="gpt-4o-mini">GPT-4o Mini (faster &amp; cheaper)</option>
-        <option value="gpt-4-turbo">GPT-4 Turbo</option>
-        <option value="gpt-3.5-turbo">GPT-3.5 Turbo (budget)</option>
-      </select>
+      <input type="text" id="modelSelect" list="modelSuggestions" autocomplete="off" />
+      <datalist id="modelSuggestions"></datalist>
+      <div class="field-desc">Escolha uma sugestão ou digite o ID de um modelo disponível na sua conta.</div>
+      <div class="field-desc" id="providerHelp"></div>
     </div>
   </div>
 
@@ -514,7 +521,7 @@
     <div class="card-title">📁 WhatsApp Chat Export — Style Training</div>
 
     <div class="field-desc" style="color:#8b949e; font-size:12px; line-height:1.65; margin-bottom:14px">
-      Export a WhatsApp chat from your phone <strong style="color:#e6edf3">(Chat → ⋮ → More → Export Chat → Without Media)</strong>, then upload the .txt file. Your messages are parsed locally — nothing is sent to OpenAI except a short style summary.
+      Export a WhatsApp chat from your phone <strong style="color:#e6edf3">(Chat → ⋮ → More → Export Chat → Without Media)</strong>, then upload the .txt file. Your messages are parsed locally — the selected AI provider receives the recent chat context, a style summary and example messages when generating a reply.
     </div>
 
     <div class="upload-area" id="uploadArea">
@@ -595,6 +602,7 @@
 <div class="toast" id="toast">Settings saved ✓</div>
 
 <script src="chatParser.js"></script>
+<script src="providers.js"></script>
 <script src="options.js"></script>
 </body>
 </html>

@@ -27,17 +27,50 @@ Always respond with valid JSON only. No markdown. No backticks. No extra text:
 }`;
 
 const $ = (id) => document.getElementById(id);
+let activeProvider = 'openai';
+let providerProfiles = {};
+
+function rememberProvider() {
+  providerProfiles[activeProvider] = {
+    apiKey: $('apiKey').value.trim(),
+    model: $('modelSelect').value.trim() || AI_PROVIDERS[activeProvider].defaultModel,
+  };
+}
+function renderProvider() {
+  const config = AI_PROVIDERS[activeProvider];
+  const profile = providerProfiles[activeProvider] || {};
+  $('apiKey').value = profile.apiKey || '';
+  $('apiKey').placeholder = config.keyHint;
+  $('modelSelect').value = profile.model || config.defaultModel;
+  $('modelSuggestions').replaceChildren(...config.models.map(model => {
+    const option = document.createElement('option');
+    option.value = model;
+    return option;
+  }));
+  $('providerHelp').textContent = config.help;
+}
+$('providerSelect').addEventListener('change', () => {
+  rememberProvider();
+  activeProvider = $('providerSelect').value;
+  renderProvider();
+});
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 
 async function init() {
   const data = await storageGet([
-    'apiKey', 'model', 'allowedChat', 'autoSend', 'safetyMode', 'debugMode',
+    'provider', 'providerProfiles', 'apiKey', 'model', 'allowedChat', 'autoSend', 'safetyMode', 'debugMode',
     'systemPrompt', 'styleInstructions', 'styleSummary', 'styleExamples',
   ]);
 
-  $('apiKey').value = data.apiKey || '';
-  $('modelSelect').value = data.model || 'gpt-4o';
+  providerProfiles = { ...(data.providerProfiles || {}) };
+  activeProvider = AI_PROVIDERS[data.provider] ? data.provider : 'openai';
+  providerProfiles[activeProvider] = {
+    apiKey: data.apiKey || '',
+    model: data.model || AI_PROVIDERS[activeProvider].defaultModel,
+  };
+  $('providerSelect').value = activeProvider;
+  renderProvider();
   $('allowedChat').value = data.allowedChat || '';
   $('autoSend').checked = !!data.autoSend;
   $('safetyMode').checked = data.safetyMode !== false; // default true
@@ -64,9 +97,12 @@ function updateAutoSendWarn(on) {
 // ─── SAVE ─────────────────────────────────────────────────────────────────────
 
 $('saveBtn').addEventListener('click', async () => {
+  rememberProvider();
   const settings = {
+    provider: activeProvider,
+    providerProfiles,
     apiKey: $('apiKey').value.trim(),
-    model: $('modelSelect').value,
+    model: $('modelSelect').value.trim() || AI_PROVIDERS[activeProvider].defaultModel,
     allowedChat: $('allowedChat').value.trim(),
     autoSend: $('autoSend').checked,
     safetyMode: $('safetyMode').checked,

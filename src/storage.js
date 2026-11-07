@@ -7,6 +7,8 @@ const DEFAULT_SETTINGS = {
   autoSend: false,
   safetyMode: true,
   allowedChat: '',
+  provider: 'openai',
+  providerProfiles: {},
   apiKey: '',
   model: 'gpt-4o',
   systemPrompt: `You are replying as the user in a WhatsApp conversation. Your job is to write short, natural replies that match the user's tone and style based on their previous message examples.

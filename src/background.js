@@ -2,7 +2,7 @@
 // MV3 Service Worker
 // Handles OpenAI API calls and coordinates between popup/content scripts.
 
-importScripts('storage.js', 'openai.js', 'promptBuilder.js');
+importScripts('storage.js', 'providers.js', 'openai.js', 'promptBuilder.js');
 
 // ─── MESSAGE HANDLER ──────────────────────────────────────────────────────────
 
@@ -84,8 +84,8 @@ async function handleGenerateReply(payload) {
     recentContext: recentContext || [],
   });
 
-  // Call OpenAI
-  const result = await callOpenAI(settings.apiKey, settings.model, messages);
+  // Call the selected provider
+  const result = await callAI(settings.provider || 'openai', settings.apiKey, settings.model, messages);
 
   // Override can_auto_send if safety mode blocks
   if (settings.safetyMode && result.risk_level !== 'low') {
