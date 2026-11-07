@@ -1,3 +1,6 @@
+
+Fork of danielmadii/GirlfriendGPT adding support for xAI Grok and Google Gemini alongside OpenAI, with a provider selector and separate API keys and model settings for each provider.
+
 # GirlfriendGPT — WhatsApp Auto-Reply Chrome Ext
 
 <p align="center">
